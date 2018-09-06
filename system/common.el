@@ -96,13 +96,6 @@
 (select-window w))
 (add-hook 'after-init-hook (lambda()(split-window-and-run-shell)))
 
-(set-face-attribute 'default nil :height 120)            ;; フォントサイズ
-(when (equal (file-exists-p "/usr/share/fonts/truetype/ttf-ricty") t)
-  ;; フォント
-  (add-to-list 'default-frame-alist '(font . "ricty-13.5")))
-
-;; default char encoding system as utf-8
-(set-default-coding-systems 'utf-8)
 
 (setq inhibit-startup-message t)  ;; スタートアップメッセージを非表示
 (fset 'yes-or-no-p 'y-or-n-p)     ;; Emacsからの質問をy/nで回答する
@@ -164,6 +157,19 @@
 ;;           (lambda()
 ;;             (define-key mozc-mode-map (kbd "C-SPC") 'toggle-input-method)))
 
+;; =============================
+;; フォント設定
+;; =============================
+(set-face-attribute 'default nil :height 120)                ;; デフォルトフォントサイズ
+
+; 横幅1:2 ricty-12, ricty-13.5, ricty-15
+(if (null (x-list-fonts "ricty-12"))
+    (message "Fonts not found")
+    (add-to-list 'default-frame-alist '(font . "ricty-12"))  ;; フォント読み込み
+    )
+
+;; default char encoding system as utf-8
+(set-default-coding-systems 'utf-8)
 
 ;; =============================
 ;; デスクトップ
@@ -227,7 +233,7 @@
 (package-install 'undo-tree) ;自動インストール
 (require 'undo-tree)
 (global-undo-tree-mode t) ;; undo-tree を起動時に有効
-(global-set-key (kbd "C-x C-z") 'undo-tree-redo) ;; M-/ をredo に設定
+(global-set-key (kbd "C-S-z") 'undo-tree-redo) ;; M-/ をredo に設定
 (global-set-key (kbd "C-z") 'undo)
 
 ;; ミニバッファでコマンド実行
@@ -285,3 +291,37 @@
 ;; e-shell 呼び出し
 (global-set-key [f7] 'shell)
 
+;;====================================
+;; 行の複製
+;;====================================
+(defun copy-whole-line (&optional arg)
+  "Copy current line."
+  (interactive "p")
+  (or arg (setq arg 1))
+  (if (and (> arg 0) (eobp) (save-excursion (forward-visible-line 0) (eobp)))
+      (signal 'end-of-buffer nil))
+  (if (and (< arg 0) (bobp) (save-excursion (end-of-visible-line) (bobp)))
+      (signal 'beginning-of-buffer nil))
+  (unless (eq last-command 'copy-region-as-kill)
+    (kill-new "")
+    (setq last-command 'copy-region-as-kill))
+  (cond ((zerop arg)
+         (save-excursion
+           (copy-region-as-kill (point) (progn (forward-visible-line 0) (point)))
+           (copy-region-as-kill (point) (progn (end-of-visible-line) (point)))))
+        ((< arg 0)
+         (save-excursion
+           (copy-region-as-kill (point) (progn (end-of-visible-line) (point)))
+           (copy-region-as-kill (point)
+                                (progn (forward-visible-line (1+ arg))
+                                       (unless (bobp) (backward-char))
+                                       (point)))))
+        (t
+         (save-excursion
+           (copy-region-as-kill (point) (progn (forward-visible-line 0) (point)))
+           (copy-region-as-kill (point)
+                                (progn (forward-visible-line arg) (point))))))
+  (message (substring (car kill-ring-yank-pointer) 0 -1)))
+
+(global-set-key (kbd "C-e") 'copy-whole-line)
+(global-set-key (kbd "C-S-e") 'kill-whole-line)
