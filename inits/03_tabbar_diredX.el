@@ -164,3 +164,7 @@ mouse-3: delete other windows"
 ;; サイズ表記変更
 (setq dired-listing-switches "-alh")
 
+;; -----------------------------
+;; Editable Dired モード変更
+;; -----------------------------
+(define-key dired-mode-map (kbd "C-c C-e") (quote wdired-change-to-wdired-mode))
