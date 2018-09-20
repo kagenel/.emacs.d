@@ -240,9 +240,8 @@
 ;;(setq enable-recursive-minibuffers t)
 
 ;; 印刷
-;; psファイル作成
-(global-set-key (kbd "C-x P")(kbd "C-u M-x ps-print-buffer-with-faces"))
-(global-set-key (kbd "C-x p")(kbd "C-u M-x ps-print-buffer")) ;; グレースケール
+(global-set-key (kbd "C-x P")(kbd "C-u M-x ps-print-buffer-with-faces"))  ;; psファイル作成
+(global-set-key (kbd "C-x p")(kbd "C-u M-x ps-print-buffer"))              ;; グレースケール
 ;; psファイルをpdfにするコマンドは端末で $ ps2pdf hoge.ps
 
 ;; 検索
@@ -325,3 +324,14 @@
 
 (global-set-key (kbd "C-e") 'copy-whole-line)
 (global-set-key (kbd "C-S-e") 'kill-whole-line)
+
+;;====================================
+;; 再帰の上限回数
+;;====================================
+;;(setq max-specpdl-size 10000) ;; デフォルト 1300
+;;(setq max-lisp-eval-depth 10000) ;; デフォルト 600
+ 
+;;------------------------------------
+;; ディレクトリ以下を置換
+;;------------------------------------
+(global-set-key (kbd "C-%") 'find-name-dired)
