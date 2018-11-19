@@ -88,6 +88,7 @@ M-s  : Alt + super
 @ undo/redo
   C-z     : undo
   C-x C-z : redo
+  C-x u   : undo-tree
 
 @ grep-find          : C-f
 
