@@ -112,7 +112,9 @@
 (blink-cursor-mode 1)             ;; カーソルの点滅をやめる
 (show-paren-mode 1)               ;; 対応する括弧を光らせる
 (set-face-background 'region "#555")  ;; 選択領域の色
-
+(delete-selection-mode t)         ;; リージョンを削除可能に設定
+(cua-mode t)                      ;; 矩形選択可能にする
+(setq cua-enable-cua-keys nil)    ;; 矩形選択の特殊なキーバインドを無効にする
 
 ;; 改行コードを表示する
 (setq eol-mnemonic-dos "(CRLF)")
