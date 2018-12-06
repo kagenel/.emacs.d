@@ -18,14 +18,18 @@
 (require 'mozc-popup)
 (setq mozc-candidate-style 'popup) ; select popup style.
 
+;; -------------------------------------------------------
 ;; 日本語入力時(mozc-mode) にも自前のコマンドを割り当てる
+;; -------------------------------------------------------
 (add-hook 'mozc-mode-hook
   (lambda()
     (define-key mozc-mode-map (kbd "C-a") 'my-move-beginning-of-line)
     (define-key mozc-mode-map (kbd "C-e") 'my-end-of-line)
     ))
 
+;; ------------------------------------
 ;; 入力モードでカーソルの色を変える
+;; ------------------------------------
 (add-hook 'input-method-activate-hook
           (lambda() (set-cursor-color "blue")))
 (add-hook 'input-method-inactivate-hook
@@ -40,3 +44,17 @@
 
 ;; キーバインド無効
 ;; (global-unset-key (kbd "C-SPC"))
+
+;; ================================
+;; 拡張子ごとにテンプレートを挿入
+;; ================================
+(require 'autoinsert)
+(setq auto-insert-query nil) ;; 確認をしない
+(setq auto-insert-directory "~/.emacs.d/insert/") ;; テンプレートディレクトリ指定
+(setq auto-insert-alist
+      ;; 拡張仕ごとにファイルを指定
+      (append '(
+                ("\\.py" . "python-insert.py")
+               ) auto-insert-alist))
+
+(add-hook 'find-file-hooks 'auto-insert)

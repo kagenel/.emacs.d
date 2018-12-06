@@ -26,21 +26,18 @@
 ;;  自動インストール
 ;; ##############################
 (require 'cl)
-
-(defvar installing-package-list
+;; インストールするpackageを指定
+(defvar my/packages
   '(
-    ;; ここに使っているパッケージを書く。
     init-loader
     magit
     ))
-
-(let ((not-installed (loop for x in installing-package-list
-                            when (not (package-installed-p x))
-                            collect x)))
+;; インストールされていないpackagesをインストールする
+(let ((not-installed (remove-if 'package-installed-p my/packages)))
   (when not-installed
     (package-refresh-contents)
-    (dolist (pkg not-installed)
-        (package-install pkg))))
+    (dolist (pkg my/packages)
+      (package-install pkg))))
 
 ;; ##############################
 ;;  emacs バージョン管理
@@ -48,6 +45,8 @@
 (defvar is_emacs23 (and (>= emacs-major-version 23) (< emacs-major-version 24)))
 (defvar is_emacs24 (and (>= emacs-major-version 24) (< emacs-major-version 25)))
 (defvar is_emacs25 (and (>= emacs-major-version 25) (< emacs-major-version 26)))
+(defvar is_emacs26 (and (>= emacs-major-version 26) (< emacs-major-version 27)))
+
 
 (when is_emacs24
   (add-to-load-path "site-lisp")
