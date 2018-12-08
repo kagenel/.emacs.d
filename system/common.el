@@ -1,4 +1,3 @@
-
 ;; ##############################
 ;; load-pathの追加関数
 ;; ##############################
@@ -10,7 +9,6 @@
         (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
             (normal-top-level-add-subdirs-to-load-path))))))
 
-
 ;; ##############################
 ;; パッケージ管理設定
 ;; ##############################
@@ -19,8 +17,7 @@
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t) ;; MELPA-stableを追加
 (add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/") t)  ;; Marmaladeを追加
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)                    ;; Orgを追加
-;; 初期化
-(package-initialize)
+(package-initialize) ;; 初期化
 
 ;; ##############################
 ;;  自動インストール
@@ -46,8 +43,6 @@
 (defvar is_emacs24 (and (>= emacs-major-version 24) (< emacs-major-version 25)))
 (defvar is_emacs25 (and (>= emacs-major-version 25) (< emacs-major-version 26)))
 (defvar is_emacs26 (and (>= emacs-major-version 26) (< emacs-major-version 27)))
-
-
 (when is_emacs24
   (add-to-load-path "site-lisp")
   ;; 分割init.el
@@ -56,7 +51,6 @@
    '(init-loader-show-log-after-init 'error-only))
   (init-loader-load)
   )
-
 (when is_emacs25
   (add-to-load-path "site-lisp")
   ;; 分割init.el
@@ -65,7 +59,14 @@
    '(init-loader-show-log-after-init 'error-only))
   (init-loader-load)
   )
-
+(when is_emacs26
+  (add-to-load-path "site-lisp")
+  ;; 分割init.el
+  (package-initialize)
+  (custom-set-variables
+   '(init-loader-show-log-after-init 'error-only))
+  (init-loader-load)
+  )
 
 ;; ============================
 ;; ウィンドウ設定
@@ -95,7 +96,9 @@
 (select-window w))
 (add-hook 'after-init-hook (lambda()(split-window-and-run-shell)))
 
-
+;; ------------------------------
+;; 一般設定
+;; ------------------------------
 (setq inhibit-startup-message t)  ;; スタートアップメッセージを非表示
 (fset 'yes-or-no-p 'y-or-n-p)     ;; Emacsからの質問をy/nで回答する
 (menu-bar-mode -1)                ;; メニューバー非表示
@@ -138,7 +141,6 @@
 (defalias 'message-box 'message)
 (setq use-dialog-box nil)
 
-
 ;; =============================
 ;; 文字コードの指定
 ;; =============================
@@ -175,9 +177,9 @@
 ;; =============================
 ;; デスクトップ
 ;; =============================
-;;
+;; -----------------------------
 ;; C-x window間の移動
-;;
+;; -----------------------------
 (global-set-key (kbd "C-c <left>") 'windmove-left)
 (global-set-key (kbd "C-c <right>") 'windmove-right)
 (global-set-key (kbd "C-c <up>") 'windmove-up)
@@ -191,9 +193,9 @@
 (define-key global-map [M-up] 'windmove-up)
 (define-key global-map [M-down] 'windmove-down)
 
-;;
+;; -----------------------------------------------------------
 ;; C-c C-rでウィンドウリサイズ関数呼び出し (上W 下S 左A 右D)
-;;
+;; -----------------------------------------------------------
 (defun window-resizer ()
   "Control window size and position. (W/S/A/D)"
   (interactive)
@@ -332,7 +334,7 @@
 ;;(setq max-specpdl-size 10000) ;; デフォルト 1300
 ;;(setq max-lisp-eval-depth 10000) ;; デフォルト 600
  
-;;------------------------------------
+;; ===================================
 ;; ディレクトリ以下を置換
-;;------------------------------------
+;; ===================================
 (global-set-key (kbd "C-%") 'find-name-dired)

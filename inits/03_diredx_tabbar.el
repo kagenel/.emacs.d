@@ -2,6 +2,59 @@
 (require 'dired-x)
 
 ;; ===================================
+;;  ディレクトリツリー
+;; ===================================
+(autoload 'neotree "neotree")
+;(require 'neotree)
+(global-set-key [f8] 'neotree-toggle)
+
+;; ===================================
+;;  dired-x(ファイラー)
+;; ===================================
+;;(require 'dired-x)
+
+;; dired-find-alternate-file の有効化
+(put 'dired-find-alternate-file 'disabled nil)
+;; RET 標準の dired-find-file では dired バッファが複数作られるので
+;; dired-find-alternate-file を代わりに使う
+(define-key dired-mode-map (kbd "RET") 'dired-open-in-accordance-with-situation)
+(define-key dired-mode-map (kbd "a") 'dired-find-file)
+
+;; ファイルなら別バッファで、ディレクトリなら同じバッファで開く
+;; (defun dired-open-in-accordance-with-situation ()
+;;   (interactive)
+;;   (let ((file (dired-get-filename)))
+;;     (if (file-directory-p file)
+;;         (dired-find-alternate-file)
+;;       (dired-find-file))))
+;; 改良版(./ ../ の修正)
+(defun dired-open-in-accordance-with-situation ()
+    (interactive)
+    (cond ((string-match "\\(?:\\.\\.?\\)"
+                         (format "%s" (thing-at-point 'filename)))
+           (dired-find-alternate-file))
+          ((file-directory-p (dired-get-filename))
+           (dired-find-alternate-file))
+          (t
+           (dired-find-file))))
+
+;; -----------------------------
+;; ディレクトリの移動キーを追加(wdired 中は無効)
+;; -----------------------------
+;; (define-key dired-mode-map (kbd "<left>") 'dired-up-directory)
+;; (define-key dired-mode-map (kbd "<right>") 'dired-open-in-accordance-with-situation)
+(define-key dired-mode-map (kbd "<backspace>") 'dired-up-directory)
+
+;; サイズ表記変更
+(setq dired-listing-switches "-alh")
+
+;; -----------------------------
+;; Editable Dired モード変更
+;; -----------------------------
+(define-key dired-mode-map (kbd "C-c C-e") (quote wdired-change-to-wdired-mode))
+
+
+;; ===================================
 ;;  タブ
 ;; ===================================
 (package-install 'tabbar-ruler) ;自動インストール
@@ -115,56 +168,3 @@ mouse-3: delete other windows"
 (setq tabbar-help-on-tab-function 'my-tabbar-buffer-help-on-tab)
 (setq tabbar-select-tab-function 'my-tabbar-buffer-select-tab)
 
-
-;; ===================================
-;;  ディレクトリツリー
-;; ===================================
-(autoload 'neotree "neotree")
-;(require 'neotree)
-(global-set-key [f8] 'neotree-toggle)
-
-;; ===================================
-;;  dired-x(ファイラー)
-;; ===================================
-;;(require 'dired-x)
-
-;; dired-find-alternate-file の有効化
-(put 'dired-find-alternate-file 'disabled nil)
-;; RET 標準の dired-find-file では dired バッファが複数作られるので
-;; dired-find-alternate-file を代わりに使う
-(define-key dired-mode-map (kbd "RET") 'dired-open-in-accordance-with-situation)
-(define-key dired-mode-map (kbd "a") 'dired-find-file)
-
-;; ファイルなら別バッファで、ディレクトリなら同じバッファで開く
-;; (defun dired-open-in-accordance-with-situation ()
-;;   (interactive)
-;;   (let ((file (dired-get-filename)))
-;;     (if (file-directory-p file)
-;;         (dired-find-alternate-file)
-;;       (dired-find-file))))
-;; 改良版(./ ../ の修正)
-(defun dired-open-in-accordance-with-situation ()
-    (interactive)
-    (cond ((string-match "\\(?:\\.\\.?\\)"
-                         (format "%s" (thing-at-point 'filename)))
-           (dired-find-alternate-file))
-          ((file-directory-p (dired-get-filename))
-           (dired-find-alternate-file))
-          (t
-           (dired-find-file))))
-
-;; -----------------------------
-;; ディレクトリの移動キーを追加(wdired 中は無効)
-;; -----------------------------
-;; (define-key dired-mode-map (kbd "<left>") 'dired-up-directory)
-;; (define-key dired-mode-map (kbd "<right>") 'dired-open-in-accordance-with-situation)
-(define-key dired-mode-map (kbd "<backspace>") 'dired-up-directory)
-
-
-;; サイズ表記変更
-(setq dired-listing-switches "-alh")
-
-;; -----------------------------
-;; Editable Dired モード変更
-;; -----------------------------
-(define-key dired-mode-map (kbd "C-c C-e") (quote wdired-change-to-wdired-mode))

@@ -36,3 +36,23 @@
   (load-file "~/.emacs.d/window/x11.el"))
 ))
 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(init-loader-show-log-after-init (quote error-only))
+ '(package-selected-packages
+   (quote
+    (yatex yaml-mode undo-tree tabbar swap-buffers popwin perspective neotree init-loader google-translate flycheck ac-math)))
+ '(safe-local-variable-values
+   (quote
+    ((mode . japanese-latex)
+     (TeX-master . t)
+     (TeX-master . main)))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

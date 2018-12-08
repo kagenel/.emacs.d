@@ -58,3 +58,21 @@
                ) auto-insert-alist))
 
 (add-hook 'find-file-hooks 'auto-insert)
+
+
+
+;; ;; パスの共有
+;; ;; PATH initialization
+;; (when window-system
+;;   (require 'exec-path-from-shell)
+;;   (exec-path-from-shell-initialize))
+
+
+;; (defun hoge ()
+;;   (interactive)
+;;   (setq val (y-or-n-p "yes or no?"))
+;;   (if (eq val t) (print "true") (print "false"))
+;;   )
+
+;; (hoge)
+
