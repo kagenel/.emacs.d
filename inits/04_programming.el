@@ -2,10 +2,11 @@
 ;; プログラミング関連
 ;; ===================================
 
+;; ===================================
 ;; 自動補完設定
+;; ===================================
 (require 'auto-complete-config)
 (ac-config-default)
-(require 'auto-complete)
 (global-auto-complete-mode t)
 (define-key ac-complete-mode-map "\C-n" 'ac-next)
 (define-key ac-complete-mode-map "\C-p" 'ac-previous)
@@ -14,8 +15,16 @@
 (set-face-foreground 'ac-candidate-face "#666666")
 (set-face-background 'ac-selection-face "#666666")  
 (set-face-foreground 'popup-summary-face "white")  ;; 候補のサマリー部分
-(set-face-background 'popup-tip-face "cyan")  ;; ドキュメント部分
+(set-face-background 'popup-tip-face "cyan")       ;; ドキュメント部分
 (set-face-foreground 'popup-tip-face "white")
+
+(add-to-list 'ac-modes 'text-mode)         ;; text-modeでも自動的に有効にする
+(add-to-list 'ac-modes 'fundamental-mode)  ;; fundamental-mode
+(add-to-list 'ac-modes 'org-mode)
+(add-to-list 'ac-modes 'yatex-mode)
+(ac-set-trigger-key "TAB")
+(setq ac-use-menu-map t)       ;; 補完メニュー表示時にC-n/C-pで補完候補選択
+(setq ac-use-fuzzy t)          ;; 曖昧マッチ
 
 ;; ---------------------------------
 ;; コード折り返し機能
@@ -65,8 +74,7 @@
 ;; ---------------------------------
 ;;  yaml
 ;; ---------------------------------
-(package-install 'yaml-mode) ;自動インストール
-
+;; (package-install 'yaml-mode) ;自動インストール
 (require 'yaml-mode) ;; 23
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
@@ -80,9 +88,6 @@
 ;; ---------------------------------
 ;;  python
 ;; ---------------------------------
-
-(when is_emacs24
-
 (add-hook 'python-mode-hook
                    '(lambda ()
                         (setq indent-tabs-mode nil)
@@ -90,8 +95,23 @@
                         (setq python-indent 4)
                         (setq tab-width 4)))
 
-)
+(add-hook 'python-mode-hook
+          '(lambda ()
+            (define-key python-mode-map "\"" 'electric-pair)
+            (define-key python-mode-map "\'" 'electric-pair)
+            (define-key python-mode-map "(" 'electric-pair)
+            (define-key python-mode-map "[" 'electric-pair)
+            (define-key python-mode-map "{" 'electric-pair)))
+(defun electric-pair ()
+  "Insert character pair without sournding spaces"
+  (interactive)
+  (let (parens-require-spaces)
+    (insert-pair)))
 
+(add-hook 'python-mode-hook
+          '(lambda()
+               (setq electric-pair-mode t)
+               ))
 ;; ===================================
 ;; インデントブロックの可視化
 ;; ===================================

@@ -28,6 +28,8 @@
   '(
     init-loader
     magit
+    auto-complete
+    yaml-mode
     ))
 ;; インストールされていないpackagesをインストールする
 (let ((not-installed (remove-if 'package-installed-p my/packages)))
