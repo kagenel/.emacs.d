@@ -13,8 +13,8 @@
   "強制的にC-SPCを割り当てる"             ;説明文字列
   t                                     ;デフォルトで有効にする
   ""                                    ;モードラインに表示しない
-  `((,(kbd "C-SPC") . toggle-input-method)))
-
+  `((,(kbd "C-SPC") . toggle-input-method))
+  `((,(kbd "<zenkaku-hankaku>") . toggle-input-method)))
 (require 'mozc-popup)
 (setq mozc-candidate-style 'popup) ; select popup style.
 
@@ -59,8 +59,6 @@
 
 (add-hook 'find-file-hooks 'auto-insert)
 
-
-
 ;; ;; パスの共有
 ;; ;; PATH initialization
 ;; (when window-system
@@ -68,11 +66,10 @@
 ;;   (exec-path-from-shell-initialize))
 
 
-;; (defun hoge ()
+;; (defun hogehoge ()
 ;;   (interactive)
-;;   (setq val (y-or-n-p "yes or no?"))
-;;   (if (eq val t) (print "true") (print "false"))
+;;   (y-or-n-p "Do you need a lift? ")
 ;;   )
 
-;; (hoge)
+;; (hogehoge)
 

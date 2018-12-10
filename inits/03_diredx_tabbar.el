@@ -38,6 +38,29 @@
           (t
            (dired-find-file))))
 
+
+;; --------------------------------------------
+;; フォルダを開く時, 新しいバッファを作成しない
+;; バッファを作成したい時にはoやC-u ^を利用する
+(defvar my-dired-before-buffer nil)
+(defadvice dired-advertised-find-file
+  (before kill-dired-buffer activate)
+  (setq my-dired-before-buffer (current-buffer)))
+
+(defadvice dired-advertised-find-file
+  (after kill-dired-buffer-after activate)
+  (if (eq major-mode 'dired-mode)
+      (kill-buffer my-dired-before-buffer)))
+
+(defadvice dired-up-directory
+  (before kill-up-dired-buffer activate)
+  (setq my-dired-before-buffer (current-buffer)))
+
+(defadvice dired-up-directory
+  (after kill-up-dired-buffer-after activate)
+  (if (eq major-mode 'dired-mode)
+      (kill-buffer my-dired-before-buffer)))
+
 ;; -----------------------------
 ;; ディレクトリの移動キーを追加(wdired 中は無効)
 ;; -----------------------------
@@ -53,6 +76,21 @@
 ;; -----------------------------
 (define-key dired-mode-map (kbd "C-c C-e") (quote wdired-change-to-wdired-mode))
 
+;; dired の sort を拡張する。
+(defvar dired-sort-order '("" "t" "S" "X")
+  "-t (時間) -X (拡張子) -S (サイズ) なし (アルファベット順) を切り替える。")
+(defvar dired-sort-order-position 0)
+
+(defun dired-rotate-sort ()
+  "Rotate dired toggle sorting order by `dired-sort-order'"
+  (interactive)
+  (setq dired-sort-order-position
+        (% (1+ dired-sort-order-position) (length dired-sort-order)))
+  (setq dired-actual-switches
+        (concat dired-listing-switches (elt dired-sort-order
+                                          dired-sort-order-position)))
+  (dired-sort-other dired-actual-switches))
+(define-key dired-mode-map "s" 'dired-rotate-sort)
 
 ;; ===================================
 ;;  タブ
@@ -133,8 +171,8 @@ are always included."
 (setq tabbar-buffer-list-function 'my-tabbar-buffer-list)
 
 ;; Chrome ライクなタブ切り替えのキーバインド
-(global-set-key (kbd "<M-s-right>") 'tabbar-forward-tab)
-(global-set-key (kbd "<M-s-left>") 'tabbar-backward-tab)
+;; (global-set-key (kbd "<M-s-right>") 'tabbar-forward-tab)
+;; (global-set-key (kbd "<M-s-left>") 'tabbar-backward-tab)
 
 ;; タブ上をマウス中クリックで kill-buffer
 (defun my-tabbar-buffer-help-on-tab (tab)

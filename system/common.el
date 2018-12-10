@@ -108,17 +108,43 @@
 (setq frame-title-format "%f")    ;; タイトルバーにファイルのフルパスを表示
 (setq make-backup-files nil)      ;; バックアップファイルを作成させない
 (setq delete-auto-save-files t)   ;; 終了時にオートセーブファイルを削除する
+(setq auto-save-list-file-prefix nil) ;; auto-save-list を作成しない
 (setq scroll-step 1)              ;; スクロールを1行にする
 ;;(set-scroll-bar-mode 'right)    ;; スクロールバーを右に表示
 (set-scroll-bar-mode 'nil)        ;; スクロールバーを非表示
 (fringe-mode (cons 0 0))          ;; 内枠の幅を0にする
 (setq-default tab-width 2 indent-tabs-mode nil) ;; タブにスペースを使用する
-(blink-cursor-mode 1)             ;; カーソルの点滅をやめる
-(show-paren-mode 1)               ;; 対応する括弧を光らせる
+(blink-cursor-mode t)             ;; カーソルの点滅をやめる
+(show-paren-mode t)               ;; 対応する括弧を光らせる
 (set-face-background 'region "#555")  ;; 選択領域の色
 (delete-selection-mode t)         ;; リージョンを削除可能に設定
 (cua-mode t)                      ;; 矩形選択可能にする
 (setq cua-enable-cua-keys nil)    ;; 矩形選択の特殊なキーバインドを無効にする
+
+;; 行末の空白を強調表示
+(setq-default show-trailing-whitespace t)
+(set-face-background 'trailing-whitespace "#b14770")
+
+;; フレームの透明度
+(set-frame-parameter (selected-frame) 'alpha '(0.95))
+
+;; C-x C-c で容易にEmacsを終了させないように質問する.
+;; (setq confirm-kill-emacs 'y-or-n-p)
+
+;; ----------------------
+;; 自動作成ファイル
+;; ----------------------
+;; 削除ファイルを移動
+;; (custom-set-variables
+;;  '(delete-by-moving-to-trash t)
+;;  '(trash-directory "~/.emacs.d/.trash"))
+;; backup の保存先
+(setq backup-directory-alist
+  (cons (cons ".*" (expand-file-name "~/.emacs.d/.backup"))
+        backup-directory-alist))
+;; 自動保存ファイルの保存先
+(setq auto-save-file-name-transforms
+  `((".*", (expand-file-name "~/.emacs.d/.backup/") t)))
 
 ;; 改行コードを表示する
 (setq eol-mnemonic-dos "(CRLF)")
