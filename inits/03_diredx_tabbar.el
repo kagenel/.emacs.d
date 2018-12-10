@@ -171,8 +171,8 @@ are always included."
 (setq tabbar-buffer-list-function 'my-tabbar-buffer-list)
 
 ;; Chrome ライクなタブ切り替えのキーバインド
-;; (global-set-key (kbd "<M-s-right>") 'tabbar-forward-tab)
-;; (global-set-key (kbd "<M-s-left>") 'tabbar-backward-tab)
+(global-set-key (kbd "<M-s-right>") 'tabbar-forward-tab)
+(global-set-key (kbd "<M-s-left>") 'tabbar-backward-tab)
 
 ;; タブ上をマウス中クリックで kill-buffer
 (defun my-tabbar-buffer-help-on-tab (tab)
