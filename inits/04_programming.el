@@ -69,7 +69,7 @@
 ;; ---------------------------------
 ;; シンタックス (重い?)
 ;; ---------------------------------
-(add-hook 'after-init-hook #'global-flycheck-mode)
+;; (add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;; ---------------------------------
 ;;  yaml
@@ -84,6 +84,7 @@
 (add-to-list 'auto-mode-alist '("\\.cnoid\\'" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.wrl\\'" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.body\\'" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\..controller\\'" . yaml-mode))
 
 ;; ---------------------------------
 ;;  python
@@ -95,6 +96,8 @@
                         (setq python-indent 4)
                         (setq tab-width 4)))
 
+;;
+;; TEST
 (add-hook 'python-mode-hook
           '(lambda ()
             (define-key python-mode-map "\"" 'electric-pair)
@@ -112,6 +115,28 @@
           '(lambda()
                (setq electric-pair-mode t)
                ))
+
+;; flycheck - error check
+(defun my/turn-on-flycheck-mode ()
+  (flycheck-mode 1))
+(add-hook 'python-mode-hook 'my/turn-on-flycheck-mode)
+
+;; jedi - completion for python
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)
+
+;; auto complete
+(require 'auto-complete-config)
+(ac-config-default)
+(global-auto-complete-mode t)
+
+;; py-yapf - auto format
+(require 'py-yapf)
+(add-hook 'python-mode-hook 'py-yapf-enable-on-save)
+
+;;
+;; TEST
+
 ;; ===================================
 ;; インデントブロックの可視化
 ;; ===================================

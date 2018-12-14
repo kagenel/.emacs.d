@@ -36,10 +36,10 @@
           (lambda() (set-cursor-color "white")))
 
 ;; OSのIME無効化
-(defun my/eisuu-key ()
-  (interactive)
-  (call-process "osascript" nil t nil "-e" "tell application \"System Events\" to key code 102"))
-(add-hook 'focus-in-hook 'my/eisuu-key)
+;; (defun my/eisuu-key ()
+;;   (interactive)
+;;   (call-process "osascript" nil t nil "-e" "tell application \"System Events\" to key code 102"))
+;; (add-hook 'focus-in-hook 'my/eisuu-key)
 
 
 ;; キーバインド無効

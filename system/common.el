@@ -125,9 +125,6 @@
 (setq-default show-trailing-whitespace t)
 (set-face-background 'trailing-whitespace "#b14770")
 
-;; フレームの透明度
-(set-frame-parameter (selected-frame) 'alpha '(0.95))
-
 ;; C-x C-c で容易にEmacsを終了させないように質問する.
 ;; (setq confirm-kill-emacs 'y-or-n-p)
 

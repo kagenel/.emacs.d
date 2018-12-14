@@ -21,5 +21,5 @@
 (setq iflipb-ignore-buffers (list "^[*]" "^magit" "]$"))
 (setq iflipb-wrap-around t)
 
-(global-set-key (kbd "<M-s-right>") 'iflipb-next-buffer)
-(global-set-key (kbd "<M-s-left>") 'iflipb-previous-buffer)
+(global-set-key (kbd "<M-s-right>") 'iflipb-previous-buffer)
+(global-set-key (kbd "<M-s-left>") 'iflipb-next-buffer)
