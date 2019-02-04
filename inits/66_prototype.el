@@ -19,8 +19,8 @@
 (require 'magit)
 (define-key global-map (kbd "M-g") 'magit-status)
 
-
-
+(global-auto-revert-mode 1)
+(setq magit-auto-revert-mode t)
 
 ;; ==============================
 ;;  没案

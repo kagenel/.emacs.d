@@ -4,3 +4,6 @@ url/
 tramp
 kkcrc
 session.*
+.trash
+
+!.backup/.gitkeep

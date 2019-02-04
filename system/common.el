@@ -1,4 +1,3 @@
-
 ;; ##############################
 ;; load-pathの追加関数
 ;; ##############################
@@ -10,7 +9,6 @@
         (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
             (normal-top-level-add-subdirs-to-load-path))))))
 
-
 ;; ##############################
 ;; パッケージ管理設定
 ;; ##############################
@@ -19,28 +17,26 @@
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t) ;; MELPA-stableを追加
 (add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/") t)  ;; Marmaladeを追加
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)                    ;; Orgを追加
-;; 初期化
-(package-initialize)
+(package-initialize) ;; 初期化
 
 ;; ##############################
 ;;  自動インストール
 ;; ##############################
 (require 'cl)
-
-(defvar installing-package-list
+;; インストールするpackageを指定
+(defvar my/packages
   '(
-    ;; ここに使っているパッケージを書く。
     init-loader
     magit
+    auto-complete
+    yaml-mode
     ))
-
-(let ((not-installed (loop for x in installing-package-list
-                            when (not (package-installed-p x))
-                            collect x)))
+;; インストールされていないpackagesをインストールする
+(let ((not-installed (remove-if 'package-installed-p my/packages)))
   (when not-installed
     (package-refresh-contents)
-    (dolist (pkg not-installed)
-        (package-install pkg))))
+    (dolist (pkg my/packages)
+      (package-install pkg))))
 
 ;; ##############################
 ;;  emacs バージョン管理
@@ -48,7 +44,7 @@
 (defvar is_emacs23 (and (>= emacs-major-version 23) (< emacs-major-version 24)))
 (defvar is_emacs24 (and (>= emacs-major-version 24) (< emacs-major-version 25)))
 (defvar is_emacs25 (and (>= emacs-major-version 25) (< emacs-major-version 26)))
-
+(defvar is_emacs26 (and (>= emacs-major-version 26) (< emacs-major-version 27)))
 (when is_emacs24
   (add-to-load-path "site-lisp")
   ;; 分割init.el
@@ -57,7 +53,6 @@
    '(init-loader-show-log-after-init 'error-only))
   (init-loader-load)
   )
-
 (when is_emacs25
   (add-to-load-path "site-lisp")
   ;; 分割init.el
@@ -66,7 +61,14 @@
    '(init-loader-show-log-after-init 'error-only))
   (init-loader-load)
   )
-
+(when is_emacs26
+  (add-to-load-path "site-lisp")
+  ;; 分割init.el
+  (package-initialize)
+  (custom-set-variables
+   '(init-loader-show-log-after-init 'error-only))
+  (init-loader-load)
+  )
 
 ;; ============================
 ;; ウィンドウ設定
@@ -96,7 +98,9 @@
 (select-window w))
 (add-hook 'after-init-hook (lambda()(split-window-and-run-shell)))
 
-
+;; ------------------------------
+;; 一般設定
+;; ------------------------------
 (setq inhibit-startup-message t)  ;; スタートアップメッセージを非表示
 (fset 'yes-or-no-p 'y-or-n-p)     ;; Emacsからの質問をy/nで回答する
 (menu-bar-mode -1)                ;; メニューバー非表示
@@ -104,15 +108,40 @@
 (setq frame-title-format "%f")    ;; タイトルバーにファイルのフルパスを表示
 (setq make-backup-files nil)      ;; バックアップファイルを作成させない
 (setq delete-auto-save-files t)   ;; 終了時にオートセーブファイルを削除する
+(setq auto-save-list-file-prefix nil) ;; auto-save-list を作成しない
 (setq scroll-step 1)              ;; スクロールを1行にする
 ;;(set-scroll-bar-mode 'right)    ;; スクロールバーを右に表示
 (set-scroll-bar-mode 'nil)        ;; スクロールバーを非表示
 (fringe-mode (cons 0 0))          ;; 内枠の幅を0にする
 (setq-default tab-width 2 indent-tabs-mode nil) ;; タブにスペースを使用する
-(blink-cursor-mode 1)             ;; カーソルの点滅をやめる
-(show-paren-mode 1)               ;; 対応する括弧を光らせる
+(blink-cursor-mode t)             ;; カーソルの点滅をやめる
+(show-paren-mode t)               ;; 対応する括弧を光らせる
 (set-face-background 'region "#555")  ;; 選択領域の色
+(delete-selection-mode t)         ;; リージョンを削除可能に設定
+(cua-mode t)                      ;; 矩形選択可能にする
+(setq cua-enable-cua-keys nil)    ;; 矩形選択の特殊なキーバインドを無効にする
 
+;; 行末の空白を強調表示
+(setq-default show-trailing-whitespace t)
+(set-face-background 'trailing-whitespace "#b14770")
+
+;; C-x C-c で容易にEmacsを終了させないように質問する.
+;; (setq confirm-kill-emacs 'y-or-n-p)
+
+;; ----------------------
+;; 自動作成ファイル
+;; ----------------------
+;; 削除ファイルを移動
+;; (custom-set-variables
+;;  '(delete-by-moving-to-trash t)
+;;  '(trash-directory "~/.emacs.d/.trash"))
+;; backup の保存先
+(setq backup-directory-alist
+  (cons (cons ".*" (expand-file-name "~/.emacs.d/.backup"))
+        backup-directory-alist))
+;; 自動保存ファイルの保存先
+(setq auto-save-file-name-transforms
+  `((".*", (expand-file-name "~/.emacs.d/.backup/") t)))
 
 ;; 改行コードを表示する
 (setq eol-mnemonic-dos "(CRLF)")
@@ -136,7 +165,6 @@
 ;; ダイアログボックスの非表示化
 (defalias 'message-box 'message)
 (setq use-dialog-box nil)
-
 
 ;; =============================
 ;; 文字コードの指定
@@ -174,9 +202,9 @@
 ;; =============================
 ;; デスクトップ
 ;; =============================
-;;
+;; -----------------------------
 ;; C-x window間の移動
-;;
+;; -----------------------------
 (global-set-key (kbd "C-c <left>") 'windmove-left)
 (global-set-key (kbd "C-c <right>") 'windmove-right)
 (global-set-key (kbd "C-c <up>") 'windmove-up)
@@ -190,9 +218,9 @@
 (define-key global-map [M-up] 'windmove-up)
 (define-key global-map [M-down] 'windmove-down)
 
-;;
+;; -----------------------------------------------------------
 ;; C-c C-rでウィンドウリサイズ関数呼び出し (上W 下S 左A 右D)
-;;
+;; -----------------------------------------------------------
 (defun window-resizer ()
   "Control window size and position. (W/S/A/D)"
   (interactive)
@@ -328,10 +356,10 @@
 ;;====================================
 ;; 再帰の上限回数
 ;;====================================
-;;(setq max-specpdl-size 10000) ;; デフォルト 1300
-;;(setq max-lisp-eval-depth 10000) ;; デフォルト 600
+;; (setq max-specpdl-size 10000) ;; デフォルト 1300
+;; (setq max-lisp-eval-depth 10000) ;; デフォルト 600
  
-;;------------------------------------
+;; ===================================
 ;; ディレクトリ以下を置換
-;;------------------------------------
+;; ===================================
 (global-set-key (kbd "C-%") 'find-name-dired)

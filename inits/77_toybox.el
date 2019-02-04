@@ -28,7 +28,7 @@
        "create a scratch buffer"
        (interactive)
        (switch-to-buffer (get-buffer-create "*scratch*"))
-       (lisp-interaction-mode))        
+       (lisp-interaction-mode))
 
 ;; ==============================
 ;; 自作プログラム
@@ -159,3 +159,7 @@
 ;;   (notification-center (format "Open '%s'" (buffer-name))))
 ;; (add-hook 'find-file-hook 'my/find-file-hook)
 
+
+
+;; emacs起動終了hook
+;; (add-hook 'emacs-startup-hook 'my-message)

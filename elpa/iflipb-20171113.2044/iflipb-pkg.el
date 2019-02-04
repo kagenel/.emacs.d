@@ -1,0 +1,1 @@
+(define-package "iflipb" "20171113.2044" "interactively flip between recently visited buffers" 'nil :commit "a5ad1fbd1173cff5228dab265515c92c0778f86a" :authors '(("Joel Rosdahl" . "joel@rosdahl.net")) :maintainer '("Joel Rosdahl" . "joel@rosdahl.net") :url "https://github.com/jrosdahl/iflipb")
