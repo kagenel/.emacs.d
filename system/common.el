@@ -80,23 +80,25 @@
 (set-frame-parameter nil 'fullscreen 'maximized)
 
 ;; 起動時に画面分割/ターミナル起動
-(defun split-window-and-run-shell()
-(setq w (selected-window))
-(setq w2 (split-window w nil t))
-(select-window w)
-(when is_emacs24
-  (enlarge-window 40 t) ;; 選択されているwindowを大きくする
-  )
-(when is_emacs25
-  (enlarge-window 15 t) ;; 選択されているwindowを大きくする
-  )
-;; (setq w3 (split-window w2 nil))
-;; (select-window w2)
-;; (enlarge-window 18)
-;; (select-window w3)
-;; (shell)
-(select-window w))
-(add-hook 'after-init-hook (lambda()(split-window-and-run-shell)))
+;; (defun split-window-and-run-shell()
+;; (setq w (selected-window))
+;; (setq w2 (split-window w nil t))
+;; (select-window w)
+;; (when is_emacs24
+;;   (enlarge-window 40 t) ;; 選択されているwindowを大きくする
+;;   )
+;; (when is_emacs25
+;;   (enlarge-window 15 t) ;; 選択されているwindowを大きくする
+;;   )
+
+;; ;; (setq w3 (split-window w2 nil))
+;; ;; (select-window w2)
+;; ;; (enlarge-window 18)
+;; ;; (select-window w3)
+;; ;; (shell)
+;; (select-window w))
+
+;; (add-hook 'after-init-hook (lambda()(split-window-and-run-shell)))
 
 ;; ------------------------------
 ;; 一般設定
@@ -121,9 +123,9 @@
 (cua-mode t)                      ;; 矩形選択可能にする
 (setq cua-enable-cua-keys nil)    ;; 矩形選択の特殊なキーバインドを無効にする
 
-;; 行末の空白を強調表示
-(setq-default show-trailing-whitespace t)
-(set-face-background 'trailing-whitespace "#b14770")
+;; ;; 行末の空白を強調表示
+;; (setq-default show-trailing-whitespace t)
+;; (set-face-background 'trailing-whitespace "#b14770")
 
 ;; C-x C-c で容易にEmacsを終了させないように質問する.
 ;; (setq confirm-kill-emacs 'y-or-n-p)

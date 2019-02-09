@@ -23,5 +23,3 @@
       (run-with-idle-timer 0.03 t 'global-hl-line-timer-function))
 ;; (cancel-timer global-hl-line-timer)
 
-;; フレームの透明度
-(set-frame-parameter (selected-frame) 'alpha '(0.95))
