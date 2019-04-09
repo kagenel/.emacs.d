@@ -84,7 +84,7 @@
 (add-to-list 'auto-mode-alist '("\\.cnoid\\'" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.wrl\\'" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.body\\'" . yaml-mode))
-(add-to-list 'auto-mode-alist '("\\..controller\\'" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.controller\\'" . yaml-mode))
 
 ;; ---------------------------------
 ;;  python
