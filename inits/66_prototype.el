@@ -84,18 +84,18 @@
 
 
 ;; フレームの透明度
-(setq window_alpha 80)
+(setq window_alpha 100)
 (set-frame-parameter nil 'alpha window_alpha)
 
 
 ; windowの透過率をトグル
 (defun toggle-window_alpha ()
   (interactive)
-  (if (= window_alpha 80)
+  (if (= window_alpha 100)
     (progn  ;; この部分が評価されている
-      (setq window_alpha 100)
+      (setq window_alpha 80)
       (set-frame-parameter nil 'alpha window_alpha))
-  (setq window_alpha 80)
+  (setq window_alpha 100)
   (set-frame-parameter nil 'alpha window_alpha)))
 
 (global-set-key [f5] 'toggle-window_alpha)
