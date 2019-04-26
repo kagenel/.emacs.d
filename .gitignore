@@ -6,4 +6,4 @@ kkcrc
 session.*
 .trash
 
-!.backup/.gitkeep
+.backup/*
