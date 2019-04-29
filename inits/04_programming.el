@@ -134,6 +134,13 @@
 (require 'py-yapf)
 (add-hook 'python-mode-hook 'py-yapf-enable-on-save)
 
+;; ===================================
+;; Markdown 設定
+;; ===================================
+(autoload 'markdown-mode "markdown-mode" "" t)
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
+
 ;;
 ;; TEST
 
