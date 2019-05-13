@@ -220,6 +220,11 @@
 (define-key global-map [M-up] 'windmove-up)
 (define-key global-map [M-down] 'windmove-down)
 
+;; フレーム間の移動
+;; -----------------------------
+(define-key global-map [M-prior] 'previous-multiframe-window) ; page up key
+(define-key global-map [M-next] 'next-multiframe-window) ; page down key
+
 ;; -----------------------------------------------------------
 ;; C-c C-rでウィンドウリサイズ関数呼び出し (上W 下S 左A 右D)
 ;; -----------------------------------------------------------
