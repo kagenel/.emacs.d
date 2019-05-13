@@ -5,5 +5,5 @@ tramp
 kkcrc
 session.*
 .trash
-
+network-security.data
 .backup/*
