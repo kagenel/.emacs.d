@@ -59,6 +59,15 @@
 
 (add-hook 'find-file-hooks 'auto-insert)
 
+
+;; ;; dired ディレクトリを先に表示
+;; (setq dired-listing-switches "-Ahl --group-directories-first")
+;; ソートと相性悪い
+
+
+;; dired 片方のウィンドウをデフォルトのコピー先にする
+(setq dired-dwim-target t)
+
 ;; ;; パスの共有
 ;; ;; PATH initialization
 ;; (when window-system

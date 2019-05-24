@@ -18,15 +18,9 @@
 ;; RET 標準の dired-find-file では dired バッファが複数作られるので
 ;; dired-find-alternate-file を代わりに使う
 (define-key dired-mode-map (kbd "RET") 'dired-open-in-accordance-with-situation)
-(define-key dired-mode-map (kbd "a") 'dired-find-file)
+;; (define-key dired-mode-map (kbd "RET") 'dired-find-file)
 
 ;; ファイルなら別バッファで、ディレクトリなら同じバッファで開く
-;; (defun dired-open-in-accordance-with-situation ()
-;;   (interactive)
-;;   (let ((file (dired-get-filename)))
-;;     (if (file-directory-p file)
-;;         (dired-find-alternate-file)
-;;       (dired-find-file))))
 ;; 改良版(./ ../ の修正)
 (defun dired-open-in-accordance-with-situation ()
     (interactive)
@@ -92,6 +86,11 @@
   (dired-sort-other dired-actual-switches))
 (define-key dired-mode-map "s" 'dired-rotate-sort)
 
+;; ;; ファイル名のみ表示
+;; (require 'dired)
+;; (define-key dired-mode-map (kbd "(") 'dired-hide-details-mode)
+;; (define-key dired-mode-map (kbd ")") 'dired-hide-details-mode)
+
 ;; ===================================
 ;;  タブ
 ;; ===================================
@@ -106,6 +105,8 @@
 
 ;; グループ化しない
 (setq tabbar-buffer-groups-function nil)
+
+(setq tabbar-use-images nil)
 
 ;; 左に表示されるボタンを無効化
 (dolist (btn '(tabbar-buffer-home-button
