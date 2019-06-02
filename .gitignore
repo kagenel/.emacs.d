@@ -7,3 +7,4 @@ session.*
 .trash
 network-security.data
 .backup/*
+server/
