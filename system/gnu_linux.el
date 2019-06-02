@@ -62,3 +62,15 @@
 
 ;; (hogehoge)
 
+
+(require 'notifications)
+(notifications-notify
+ :title "Emacs"
+ :body  "I &#9825; vim"
+ :timeout 10000)
+
+;; (notifications-notify
+;;  :title "org-pomodoro"
+;;  :body "Well done! Take a break."
+;;  :app-icon "~/.emacs.d/img/004-beer.png"))
+
