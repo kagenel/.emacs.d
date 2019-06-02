@@ -26,19 +26,19 @@
 ;; window system type of terminal
 (when (equal window-system nil)
   (set-terminal-parameter nil 'background-mode 'dark)
-  (load-file "~/.emacs.d/system/common.el"))
+  (load-file "~/.emacs.d/system/common/common.el"))
 
 (if window-system (progn
 
 ;; OS type of linux
 (when (equal system-type 'gnu/linux)
-  (load-file "~/.emacs.d/system/common.el")
+  (load-file "~/.emacs.d/system/common/common.el")
   (load-file "~/.emacs.d/window/x11.el")
   (load-file "~/.emacs.d/system/gnu_linux.el"))
 
 ;; OS type of windows
 (when (equal system-type 'windows-nt)
-  (load-file "~/.emacs.d/system/common.el")
+  (load-file "~/.emacs.d/system/common/common.el")
   (load-file "~/.emacs.d/system/windows-nt.el")
   (load-file "~/.emacs.d/window/x11.el"))
 ))

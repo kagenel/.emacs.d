@@ -1,101 +1,165 @@
+;; 取り扱い説明の表示
+(defun document-road ()
+  (interactive)
+  (kill-scratch-buffer)
+  (create-scratch-buffer)
+  (set-buffer (get-buffer-create "*scratch*"))
+  (funcall initial-major-mode)
+  (insert-file-contents "~/.emacs.d/.scratch/doc" nil nil nil t))
 
-;; popwin.el
-(require 'popwin)
-(setq display-buffer-function 'popwin:display-buffer)
-;; 画面下に表示
- (setq popwin:popup-window-position 'bottom)
-;;etq popwin:popup-window-position 'right)
-;; google-translate.elの翻訳表示
-(push '("*Google Translate*") popwin:special-display-config)
-
-
-;; ;;(defvar my/theme-at-dawn '(insert-tetosan insert-tetosan))
+(global-set-key (kbd "C-c h") 'document-road)
 
 
+(defun kill-scratch-buffer ()
+      ;; The next line is just in case someone calls this manually
+      (set-buffer (get-buffer-create "*scratch*"))
+      ;; Kill the current (*scratch*) buffer
+      (remove-hook 'kill-buffer-query-functions 'kill-scratch-buffer)
+      (kill-buffer (current-buffer))
+      ;; Make a brand new *scratch* buffer
+      (set-buffer (get-buffer-create "*scratch*"))
+      (lisp-interaction-mode)
+      (make-local-variable 'kill-buffer-query-functions)
+      (add-hook 'kill-buffer-query-functions 'kill-scratch-buffer)
+      ;; Since we killed it, don't let caller do that.
+      nil)
 
-;; Git関連
-(autoload 'magit "magit")
-(package-install 'magit) ;自動インストール
-(require 'magit)
-(define-key global-map (kbd "M-g") 'magit-status)
-
-(global-auto-revert-mode 1)
-(setq magit-auto-revert-mode t)
+ (defun create-scratch-buffer nil
+       "create a scratch buffer"
+       (interactive)
+       (switch-to-buffer (get-buffer-create "*scratch*"))
+       (lisp-interaction-mode))
 
 ;; ==============================
-;;  没案
+;; 自作プログラム
 ;; ==============================
+;; 外部スクリプトの読み込み
+(defun cat-1line (path)
+  (interactive "fFile: ")
+  (let ((command (concat "~/.emacs.d/bin/platex2pdf.sh " path)))
+    (insert (shell-command-to-string command))))
 
-;; ---------------------------
-;;  TODO 管理 org-agenda
-;; ---------------------------
-;; ;; (setq org-agenda-files '("~/.emacs.d/.data/todo.org"
-;; ;;                          "~/.emacs.d/.data/list.org"
-;; ;;                          "~/.emacs.d/.data/work.org"))
+;;===============================
+;; scratch
+;;===============================
+;; スクラッチの引継ぎ
+;; (setq initial-scratch-message "")           ; とりあえず initial message を消す
+;; (add-hook 'kill-emacs-hook 'scratch-save)   ; Emacs終了時に *scratch* を保存
+;; (add-hook 'window-setup-hook 'scratch-resume); 起動時に.scratchを読み込み
+;; ;;  window-setup-hook が最後に呼ばれるっぽい
+;; ;;  @see info 38.1.1 Summary: Sequence of Actions at Startup
+;; (add-hook 'kill-buffer-hook; *scratch* バッファで kill-buffer したら内容を保存
+;;           (lambda ()
+;;             (if (equal (buffer-name) "*scratch*") (scratch-save))))
+;; (add-hook 'after-save-hook        ; *scratch*をファイル保存したら、*scratch*復帰
+;;           (lambda ()
+;;             (unless (get-buffer "*scratch*") (scratch-resume))))
+;; (defun scratch-save ()
+;;   (let ((buf (get-buffer "*scratch*")))
+;;     (when buf
+;;       (set-buffer buf)
+;;       (write-file "~/.emacs.d/.scratch/scratch")
+;;       (ignore-errors (kill-buffer ".scratch")))))
 
-;; (global-set-key (kbd "C-c a") 'org-agenda)
+;; (defun scratch-resume ()
+;;   "*scratch* を保存した内容で復帰する"
+;;   (interactive)
+;;   (set-buffer (get-buffer-create "*scratch*"))
+;;   (funcall initial-major-mode)
+;;   (insert-file-contents "~/.emacs.d/.scratch/scratch" nil nil nil t)
+;; (ignore-errors (kill-bffer ".scratch")))
 
 
-;; ;;
-;; (setq inhibit-splash-screen t)
-;; (org-agenda-list)
-;; (delete-other-windows)
-;;(custom-set-faces
+;; スクラッチの読み込み
+(defun scratch-road (file)
+  "*scratch* を保存した内容で復帰する"
+  (interactive)
+  (set-buffer (get-buffer-create "*scratch*"))
+  (funcall initial-major-mode)
+  (insert-file-contents (concat "~/.emacs.d/.scratch/" file) nil nil nil t))
+
+
+;; ランダムにスクラッチを読み込み
+(defun insert-tetosan ()
+  (setq rad (random 2))
+  (cond
+   ((= rad 0) (scratch-road "asc1"))
+   ((= rad 1) (scratch-road "asc2"))
+   )
+)
+(insert-tetosan)
+;;(add-hook 'window-setup-hook 'insert-tetosan); 起動時に.scratchを読み込み
+
+
+;; MEMO
+;; (defun foo3 (n)             ; foo3は1引数
+;;     (interactive "nCount:") ; ミニバッファで読む
+;;     (insert   (number-to-string (* 2 n))))
+;; n はオプション文字
+
+
+
+;; TeX テンプレートの表示 (未実装)
+;; (defun document-road ()
+;;   (interactive)
+;;   (set-buffer (get-buffer-create "*scratch*"))
+;;   (funcall initial-major-mode)
+;;   (insert-file-contents "~/.emacs.d/.scratch/practice.tex" nil nil nil t))
+
+;; (global-set-key (kbd "C-c q") 'document-road)
+
+
+;; make コマンド (辿る版)
+(defun py-make (D)
+  (interactive "D")
+  (async-shell-command (concatenate 'string "python ~/.emacs.d/.bin/pymake/pymake.py " D)))
+(global-set-key [f12] 'py-make)
+
+
+;; 論文チェック
+(defun py-checkpaper (f)
+  (interactive "f")
+  ;;(insert (shell-command-to-string "pwd"))
+  ;;(shell-command-to-string "python ~/.emacs.d/.python/CheckPaper/checkpaper.py"))
+  ;;(message (shell-command-to-string (concatenate 'string "python ~/.emacs.d/.python/CheckPaper/checkpaper.py " f))))
+  (async-shell-command (concatenate 'string "python ~/.emacs.d/.bin/checkpaper.py " f)))
+(global-set-key (kbd "C-c v") 'py-checkpaper)
+
+;; (defun my/get-curernt-path ()
+;;     (if (equal major-mode 'dired-mode)
+;; 	default-directory
+;; 	(buffer-file-name)))
+(custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- ;;)
-
-
-;; howm
-
-;; (when is_emacs25
-;;   (require 'howm)
-;;   (setq howm-menu-lang 'jp)
-;;   (global-set-key (kbd "C-c , ,") 'howm-menu)
-;;   ;; (autoload 'howm-menu "howm" "Hitori Otegaru Wiki Modoki" t)
-
-;;   ;; (setq howm-home-directory "~/howm/")
-;;   ;; (setq howm-keyword-file (concat howm-home-directory ".howm-keys"))
-;;   ;; (setq howm-history-file (concat howm-home-directory ".howm-history"))
-;; )
-
-
-
-(require 'shell-pop)
-(global-set-key [f9] 'shell-pop)
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(shell-pop-default-directory "/Users/kyagi/git")
- '(shell-pop-shell-type (quote ("ansi-term" "*ansi-term*" (lambda nil (ansi-term shell-pop-term-shell)))))
- '(shell-pop-term-shell "/bin/bash")
- '(shell-pop-universal-key "C-t")
- '(shell-pop-window-size 30)
- '(shell-pop-full-span t)
- ;; '(shell-pop-window-position "bottom")
- '(shell-pop-window-position "right")
  )
 
+;;------------------------------------------
+;; ;; デスクトップ通知を送る
+;; (defvar notification-center-title "Emacs")
+
+;; (defun notification-center (msg)
+;;   (let ((tmpfile (make-temp-file "notification-center")))
+;;    (with-temp-file tmpfile
+;;      (insert
+;;       (format "display notification \"%s\" with title \"%s\""
+;;               msg notification-center-title)))
+;;    (unless (zerop (call-process "osascript" tmpfile))
+;;      (message "Failed: Call AppleScript"))
+;;    (delete-file tmpfile)))
+
+;; (notification-center "我が友「Emacs」")
 
 
-;; フレームの透明度
-(setq window_alpha 100)
-(set-frame-parameter nil 'alpha window_alpha)
+;;-----------------------------------------------
+;; ;; ファイル名を開いたときにそれを通知する
+;; (defun my/find-file-hook ()
+;;   (notification-center (format "Open '%s'" (buffer-name))))
+;; (add-hook 'find-file-hook 'my/find-file-hook)
 
 
-; windowの透過率をトグル
-(defun toggle-window_alpha ()
-  (interactive)
-  (if (= window_alpha 100)
-    (progn  ;; この部分が評価されている
-      (setq window_alpha 80)
-      (set-frame-parameter nil 'alpha window_alpha))
-  (setq window_alpha 100)
-  (set-frame-parameter nil 'alpha window_alpha)))
 
-(global-set-key [f5] 'toggle-window_alpha)
+;; emacs起動終了hook
+;; (add-hook 'emacs-startup-hook 'my-message)

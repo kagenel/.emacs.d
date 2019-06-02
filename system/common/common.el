@@ -26,10 +26,11 @@
 ;; インストールするpackageを指定
 (defvar my/packages
   '(
+    use-package
     init-loader
-    magit
-    auto-complete
-    yaml-mode
+    ;; magit
+    ;; auto-complete
+    ;; yaml-mode
     ))
 ;; インストールされていないpackagesをインストールする
 (let ((not-installed (remove-if 'package-installed-p my/packages)))
@@ -123,6 +124,7 @@
 (cua-mode t)                      ;; 矩形選択可能にする
 (setq cua-enable-cua-keys nil)    ;; 矩形選択の特殊なキーバインドを無効にする
 (setq ring-bell-function 'ignore) ;; ビープ音 OFF
+(global-auto-revert-mode 1)       ;; バッファが更新されればロード
 ;; ;; 行末の空白を強調表示
 ;; (setq-default show-trailing-whitespace t)
 ;; (set-face-background 'trailing-whitespace "#b14770")
@@ -367,3 +369,12 @@
 ;; ディレクトリ以下を置換
 ;; ===================================
 (global-set-key (kbd "C-%") 'find-name-dired)
+
+
+;; Other el
+(load-file "~/.emacs.d/system/common/expansion.el")
+(load-file "~/.emacs.d/system/common/development.el")
+(load-file "~/.emacs.d/system/common/utility.el")
+
+(load-file "~/.emacs.d/system/frame/frame.el")
+(load-file "~/.emacs.d/system/frame/modeline.el")

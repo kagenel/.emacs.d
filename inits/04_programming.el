@@ -55,17 +55,6 @@
              (hs-minor-mode 1)))
 (define-key global-map (kbd "C-c /") 'hs-toggle-hiding)
 
-
-;; gtags
-(autoload 'gtags "gtags")
-;(require 'gtags)
-;; gtags-find-tag で検索時に以前のバッファが残らないようにクリアする
-(setq gtags-select-buffer-single t)
-(global-set-key "\M-t" 'gtags-find-tag)
-(global-set-key "\M-r" 'gtags-find-rtag)
-(global-set-key "\M-s" 'gtags-find-symbol)
-(global-set-key "\C-t" 'gtags-pop-stack)
-
 ;; ---------------------------------
 ;; シンタックス (重い?)
 ;; ---------------------------------
@@ -133,36 +122,3 @@
 ;; py-yapf - auto format
 (require 'py-yapf)
 (add-hook 'python-mode-hook 'py-yapf-enable-on-save)
-
-;; ===================================
-;; Markdown 設定
-;; ===================================
-(autoload 'markdown-mode "markdown-mode" "" t)
-(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
-
-;;
-;; TEST
-
-;; ===================================
-;; インデントブロックの可視化
-;; ===================================
-(when is_emacs24
-  (package-install 'highlight-indentation) ;自動インストール
-
-  (require 'highlight-indentation)
-  (setq highlight-indentation-mode)
-  (setq highlight-indentation-offset 2)
-  (set-face-background 'highlight-indentation-face "#383e4d")
-  (set-face-background 'highlight-indentation-current-column-face "#4a5266")
-
-  ;; yaml hook
-  (add-hook 'yaml-mode-hook 'highlight-indentation-mode)
-  (add-hook 'yaml-mode-hook 'highlight-indentation-current-column-mode)
-  (add-hook 'yaml-mode-hook '(lambda() (setq highlight-indentation-offset 2)))
-
-  ;; python hook
-  (add-hook 'python-mode-hook 'highlight-indentation-mode)
-  (add-hook 'python-mode-hook 'highlight-indentation-current-column-mode)
-  (add-hook 'python-mode-hook '(lambda() (setq highlight-indentation-offset 4)))
-)
