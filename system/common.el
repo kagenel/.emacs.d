@@ -122,7 +122,7 @@
 (delete-selection-mode t)         ;; リージョンを削除可能に設定
 (cua-mode t)                      ;; 矩形選択可能にする
 (setq cua-enable-cua-keys nil)    ;; 矩形選択の特殊なキーバインドを無効にする
-
+(setq ring-bell-function 'ignore) ;; ビープ音 OFF
 ;; ;; 行末の空白を強調表示
 ;; (setq-default show-trailing-whitespace t)
 ;; (set-face-background 'trailing-whitespace "#b14770")
