@@ -79,6 +79,7 @@
 
 ;; 起動時の画面フルサイズ
 (set-frame-parameter nil 'fullscreen 'maximized)
+;; (set-frame-parameter nil 'fullscreen 'fullboth)
 
 ;; 起動時に画面分割/ターミナル起動
 ;; (defun split-window-and-run-shell()
@@ -380,4 +381,3 @@
 
 (load-file "~/.emacs.d/system/frame/frame.el")
 (load-file "~/.emacs.d/system/frame/modeline.el")
-

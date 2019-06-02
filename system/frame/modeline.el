@@ -46,17 +46,23 @@
 ;; (powerline-center-theme)
 
 
-;; (use-package doom-modeline
-;;   :custom
-;;   (doom-modeline-buffer-file-name-style 'truncate-with-project)
-;;   (doom-modeline-icon t)
-;;   (doom-modeline-major-mode-icon nil)
-;;   (doom-modeline-minor-modes nil)
-;;   :hook
-;;   (after-init . doom-modeline-mode)
-;;   :config
-;;   (line-number-mode 0)
-;;   (column-number-mode 0)
-;;   (doom-modeline-def-modeline 'main
-;;                               '(bar workspace-number window-number evil-state god-state ryo-modal xah-fly-keys matches buffer-info remote-host buffer-position parrot selection-info)
-;;                               '(misc-info persp-name lsp github debug minor-modes input-method major-mode process vcs checker)))
+(when is_emacs26
+  (use-package doom-modeline
+    :ensure t
+    :hook (after-init . doom-modeline-mode))
+  :config
+  (setq doom-modeline-icon t)
+  )
+
+
+(require 'notifications)
+(notifications-notify
+ :title "Emacs"
+ :body  "I &#9825; vim"
+ :timeout 10000)
+
+;; (notifications-notify
+;;  :title "org-pomodoro"
+;;  :body "Well done! Take a break."
+;;  :app-icon "~/.emacs.d/img/004-beer.png"))
+
