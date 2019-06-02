@@ -37,16 +37,21 @@
 (global-set-key (kbd "C-f") 'grep-find)
 
 ;; 拡張子ごとにテンプレートを挿入
-(require 'autoinsert)
-(setq auto-insert-query nil) ;; 確認をしない
-(setq auto-insert-directory "~/.emacs.d/insert/") ;; テンプレートディレクトリ指定
-(setq auto-insert-alist
-      ;; 拡張仕ごとにファイルを指定
-      (append '(
-                ("\\.py" . "python-insert.py")
-               ) auto-insert-alist))
-
-(add-hook 'find-file-hooks 'auto-insert)
+(use-package autoinsert
+  :commands (auto-insert)
+  :bind (("M-g" . magit-status))
+  :init
+  (add-hook 'find-file-hooks 'auto-insert)
+  :config
+  ;; 設定
+  (setq auto-insert-query nil) ;; 確認をしない
+  (setq auto-insert-directory "~/.emacs.d/insert/") ;; テンプレートディレクトリ指定
+  (setq auto-insert-alist
+        ;; 拡張仕ごとにファイルを指定
+        (append '(
+                  ("\\.py" . "python-insert.py")
+                  ) auto-insert-alist))
+  )
 
 ;; ;; パスの共有
 ;; ;; PATH initialization
@@ -63,11 +68,13 @@
 ;; (hogehoge)
 
 
+
+
 (require 'notifications)
 (notifications-notify
  :title "Emacs"
- :body  "I &#9825; vim"
- :timeout 10000)
+ :body  "I LOVE; vim"
+ :timeout 500)
 
 ;; (notifications-notify
 ;;  :title "org-pomodoro"

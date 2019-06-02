@@ -267,12 +267,15 @@
                (throw 'end-flag t)))))))
 (global-set-key "\C-c\C-r" 'window-resizer)
 
-;; undo-treeでredo追加
-(package-install 'undo-tree) ;自動インストール
-(require 'undo-tree)
-(global-undo-tree-mode t) ;; undo-tree を起動時に有効
-(global-set-key (kbd "C-S-z") 'undo-tree-redo) ;; M-/ をredo に設定
-(global-set-key (kbd "C-z") 'undo)
+;; Redo 設定
+(use-package undo-tree
+  :commands (undo-tree-mode)
+  :bind (("C-S-z" . undo-tree-redo)
+         ("C-z" . undo-tree-undo))
+  :config
+  ;; 設定
+  (global-undo-tree-mode t)
+  )
 
 ;; ミニバッファでコマンド実行
 ;;(setq enable-recursive-minibuffers t)

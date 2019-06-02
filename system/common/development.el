@@ -46,3 +46,63 @@
   :config
   ;; 設定
   )
+
+;; yaml 設定
+(use-package yaml-mode
+  :commands (yaml-mode)
+  :mode (("\\.yml\\'" . yaml-mode)
+         ("\\.yaml\\'" . yaml-mode)
+         ("\\.work\\'" . yaml-mode)
+         ("\\.conf\\'" . yaml-mode)
+         ("\\.model\\'" . yaml-mode)
+         ("\\.cnoid\\'" . yaml-mode)
+         ("\\.wrl\\'" . yaml-mode)
+         ("\\.body\\'" . yaml-mode)
+         ("\\.controller\\'" . yaml-mode))
+  :config
+  ;; 設定
+  )
+
+;;  python 設定
+(add-hook 'python-mode-hook
+          '(lambda ()
+             (setq indent-tabs-mode nil)
+             (setq indent-level 4)
+             (setq python-indent 4)
+             (setq tab-width 4)))
+
+(add-hook 'python-mode-hook
+          '(lambda ()
+            (define-key python-mode-map "\"" 'electric-pair)
+            (define-key python-mode-map "\'" 'electric-pair)
+            (define-key python-mode-map "(" 'electric-pair)
+            (define-key python-mode-map "[" 'electric-pair)
+            (define-key python-mode-map "{" 'electric-pair)))
+(defun electric-pair ()
+  "Insert character pair without sournding spaces"
+  (interactive)
+  (let (parens-require-spaces)
+    (insert-pair)))
+
+(add-hook 'python-mode-hook
+          '(lambda()
+               (setq electric-pair-mode t)
+               ))
+
+;; flycheck - error check
+(defun my/turn-on-flycheck-mode ()
+  (flycheck-mode 1))
+(add-hook 'python-mode-hook 'my/turn-on-flycheck-mode)
+
+;; jedi - completion for python
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)
+
+;; auto complete
+(require 'auto-complete-config)
+(ac-config-default)
+(global-auto-complete-mode t)
+
+;; py-yapf - auto format
+(require 'py-yapf)
+(add-hook 'python-mode-hook 'py-yapf-enable-on-save)

@@ -2,26 +2,22 @@
 ;; ファンクションキー系
 ;;
 
-;; shell 端末
-(require 'shell-pop)
-(global-set-key [f9] 'shell-pop)
+;; shell-pop 設定
+(use-package shell-pop
+  :commands (shell-pop)
+  :bind (([f9] . shell-pop))
+  :config
+  ;; 設定  
+  (setq shell-pop-default-directory "/Users/kyagi/git")
+  (setq shell-pop-shell-type (quote ("ansi-term" "*ansi-term*" (lambda nil (ansi-term shell-pop-term-shell)))))
+  (setq shell-pop-term-shell "/bin/bash")
+  (setq shell-pop-universal-key "C-t")
+  (setq shell-pop-window-size 30)
+  (setq shell-pop-full-span t)
+  (setq shell-pop-window-position "right")
+  )
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(shell-pop-default-directory "/Users/kyagi/git")
- '(shell-pop-shell-type (quote ("ansi-term" "*ansi-term*" (lambda nil (ansi-term shell-pop-term-shell)))))
- '(shell-pop-term-shell "/bin/bash")
- '(shell-pop-universal-key "C-t")
- '(shell-pop-window-size 30)
- '(shell-pop-full-span t)
- ;; '(shell-pop-window-position "bottom")
- '(shell-pop-window-position "right")
- )
-
-;; フレームの透明度
+;; フレームの透明度 設定
 (setq window_alpha 100)
 (set-frame-parameter nil 'alpha window_alpha)
 
