@@ -8,3 +8,4 @@ session.*
 network-security.data
 .backup/*
 server/
+.gitmodules
