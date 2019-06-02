@@ -279,9 +279,6 @@
 (global-set-key (kbd "C-x p")(kbd "C-u M-x ps-print-buffer"))              ;; グレースケール
 ;; psファイルをpdfにするコマンドは端末で $ ps2pdf hoge.ps
 
-;; 検索
-(global-set-key (kbd "C-f") 'grep-find)
-
 ;; ===================================
 ;; バッファスワップ
 ;; ===================================

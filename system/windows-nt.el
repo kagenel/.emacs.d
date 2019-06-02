@@ -27,3 +27,4 @@
 ;; 検索時などのカレント
 (setq default-directory "~/" )
 
+

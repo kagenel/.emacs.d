@@ -42,8 +42,12 @@
 ;; (add-hook 'focus-in-hook 'my/eisuu-key)
 
 
-;; キーバインド無効
-;; (global-unset-key (kbd "C-SPC"))
+
+
+;; 検索
+(global-set-key (kbd "C-f") 'grep-find)
+
+
 
 ;; ================================
 ;; 拡張子ごとにテンプレートを挿入
