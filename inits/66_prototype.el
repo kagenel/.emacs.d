@@ -163,3 +163,59 @@
 
 ;; emacs起動終了hook
 ;; (add-hook 'emacs-startup-hook 'my-message)
+
+
+
+
+
+
+;;
+;; D&D カスタム
+;;
+;; ;; デフォルト
+;; (require 'smart-dnd)
+;; (add-hook
+;;  'text-mode-hook
+;;  (lambda ()
+;;    (smart-dnd-setup
+;;     '(
+;;       ("\\.tex\\'" . "\\input{%r}\n")
+;;       ("\\.cls\\'" . "\\documentclass{%f}\n")
+;;       ("\\.sty\\'" . "\\usepackage{%f}\n")
+;;       ("\\.e?ps\\'"  . "\\includegraphics[width=1.0\\linewidth]{%f}\n")
+;;       ("\\.pdf\\'"   . "\\includegraphics[]{%r}\n")
+;;       ("\\.jpe?g\\'" . "\\includegraphics[width=1.0\\linewidth]{%f}\n")
+;;       ("\\.png\\'"   . "\\includegraphics[width=1.0\\linewidth]{%f}\n")
+;;       ))))
+
+;; use-package 版
+(use-package smart-dnd
+  :commands (smart-dnd-setup)
+  :init
+  (add-hook
+   'html-mode-hook
+   (lambda ()
+     (smart-dnd-setup
+      '(
+        ("\\.gif\\'" . "<img src=\"%R\">\n")
+        ("\\.jpg\\'" . "<img src=\"%R\">\n")
+        ("\\.png\\'" . "<txe src=\"%R\">\n")
+        ("\\.css\\'" . "<link rel=\"stylesheet\" type=\"text/css\" href=\"%R\">\n" )
+        ("\\.js\\'"  . "<script type=\"text/javascript\" src=\"%R\"></script>\n" )
+        (".*" . "<a href=\"%R\">%f</a>\n")
+        ))))
+  (add-hook
+   'text-mode-hook
+   (lambda ()
+     (smart-dnd-setup
+      '(
+        ("\\.tex\\'" . "\\input{%r}\n")
+        ("\\.cls\\'" . "\\documentclass{%f}\n")
+        ("\\.sty\\'" . "\\usepackage{%f}\n")
+        ("\\.e?ps\\'"  . "\\includegraphics[width=1.0\\linewidth]{%f}\n")
+        ("\\.pdf\\'"   . "\\includegraphics[]{%r}\n")
+        ("\\.jpe?g\\'" . "\\includegraphics[width=1.0\\linewidth]{%f}\n")
+        ("\\.png\\'"   . "\\includegraphics[width=1.0\\linewidth]{%f}\n")
+        ))))
+  )
+
