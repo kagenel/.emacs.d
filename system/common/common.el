@@ -17,6 +17,8 @@
 (add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t) ;; MELPA-stableを追加
 (add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/") t)  ;; Marmaladeを追加
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)                    ;; Orgを追加
+(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize) ;; 初期化
 
 ;; ##############################
