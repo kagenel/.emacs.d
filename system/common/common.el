@@ -158,8 +158,8 @@
 ;; 行数を表示する
 ;;(require 'linum)
 (global-linum-mode 0) ;; default 0 表示なし
-(global-set-key [f6] 'linum-mode)
 (setq linum-format "%3d ")
+(global-set-key (kbd "<f6>") 'linum-mode)
 
 ;; 折り返しトグル
 ;;リージョンに色をつける
