@@ -86,7 +86,7 @@
 
 (add-hook 'python-mode-hook
           '(lambda()
-               (setq electric-pair-mode t)
+               ;;(setq electric-pair-mode t)
                ))
 
 ;; flycheck - error check

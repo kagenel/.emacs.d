@@ -21,6 +21,13 @@
     '(defun enriched-decode-display-prop (start end &optional param)
        (list start end)))
 
+;; 警告の抑制
+(setq byte-compile-warnings
+      '(not free-vars unresolved callargs redefine obsolete noruntime
+            cl-functions interactive-only make-local))
+;; (setq byte-compile-warnings '(not obsolete))
+(setq ad-redefinition-action 'accept)
+
 ;; 初期設定
 
 ;; window system type of terminal
@@ -55,7 +62,7 @@
  '(init-loader-show-log-after-init (quote error-only))
  '(package-selected-packages
    (quote
-    (0blayout csharp-mode doom-modeline markdown-mode state yatex yaml-mode undo-tree tabbar swap-buffers popwin perspective neotree init-loader google-translate flycheck ac-math)))
+    (smartparens 0blayout csharp-mode doom-modeline markdown-mode state yatex yaml-mode undo-tree tabbar swap-buffers popwin perspective neotree init-loader google-translate flycheck ac-math)))
  '(safe-local-variable-values
    (quote
     ((mode . japanese-latex)

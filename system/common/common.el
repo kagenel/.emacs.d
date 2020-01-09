@@ -386,6 +386,7 @@
 (load-file "~/.emacs.d/system/common/expansion.el")
 (load-file "~/.emacs.d/system/common/development.el")
 (load-file "~/.emacs.d/system/common/utility.el")
+(load-file "~/.emacs.d/system/common/editor.el")
 
 (load-file "~/.emacs.d/system/common/logging.el")
 
