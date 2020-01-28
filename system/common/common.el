@@ -135,21 +135,6 @@
 ;; C-x C-c で容易にEmacsを終了させないように質問する.
 ;; (setq confirm-kill-emacs 'y-or-n-p)
 
-;; ----------------------
-;; 自動作成ファイル
-;; ----------------------
-;; 削除ファイルを移動
-;; (custom-set-variables
-;;  '(delete-by-moving-to-trash t)
-;;  '(trash-directory "~/.emacs.d/.trash"))
-;; backup の保存先
-(setq backup-directory-alist
-  (cons (cons ".*" (expand-file-name "~/.emacs.d/.backup"))
-        backup-directory-alist))
-;; 自動保存ファイルの保存先
-(setq auto-save-file-name-transforms
-  `((".*", (expand-file-name "~/.emacs.d/.backup/") t)))
-
 ;; 改行コードを表示する
 (setq eol-mnemonic-dos "(CRLF)")
 (setq eol-mnemonic-mac "(CR)")
@@ -387,9 +372,9 @@
 (load-file "~/.emacs.d/system/common/development.el")
 (load-file "~/.emacs.d/system/common/utility.el")
 (load-file "~/.emacs.d/system/common/editor.el")
+(load-file "~/.emacs.d/system/common/cache.el")
 
 (load-file "~/.emacs.d/system/common/logging.el")
 
 (load-file "~/.emacs.d/system/frame/frame.el")
 (load-file "~/.emacs.d/system/frame/modeline.el")
-

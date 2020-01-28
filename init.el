@@ -55,6 +55,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(delete-by-moving-to-trash t)
  '(doom-modeline-buffer-file-name-style (quote truncate-with-project) t)
  '(doom-modeline-icon t t)
  '(doom-modeline-major-mode-icon nil t)
@@ -78,7 +79,8 @@
  '(shell-pop-term-shell "/bin/bash")
  '(shell-pop-universal-key "C-t")
  '(shell-pop-window-position "right")
- '(shell-pop-window-size 30))
+ '(shell-pop-window-size 30)
+ '(trash-directory "~/.emacs.d/.cache/trash"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

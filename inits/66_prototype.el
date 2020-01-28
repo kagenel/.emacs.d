@@ -221,14 +221,25 @@
 
 
 
-(require 'notifications)
-(notifications-notify
- :title "Emacs"
- :body  "I LOVE; vim"
- :timeout 500)
+;; 通知機能利用
+;; (require 'notifications)
+;; (notifications-notify
+;;  :title "Emacs"
+;;  :body  "I LOVE; vim"
+;;  :timeout 500)
 
 ;; (notifications-notify
 ;;  :title "org-pomodoro"
 ;;  :body "Well done! Take a break."
 ;;  :app-icon "~/.emacs.d/img/004-beer.png"))
 
+
+;; 定期実行 (シングルスレッドなのでアイドル中に実行)
+(defun progo-run-agenda-store ()
+  ""
+  (message "Agenda to be exported... ")
+  (org-batch-store-agenda-views)
+  (message "Agenda exported!"))
+(run-at-time 5 5 'progo-run-agenda-store)
+
+;; (cancel-function-timers 'progo-run-agenda-store) ;; 停止命令
