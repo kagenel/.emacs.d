@@ -6,6 +6,7 @@ kkcrc
 session.*
 .trash
 network-security.data
-.cache/*
+.cache/
+!.gitkeep
 server/
 .gitmodules
