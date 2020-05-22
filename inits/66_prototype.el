@@ -217,6 +217,19 @@
         ("\\.jpe?g\\'" . "\\includegraphics[width=1.0\\linewidth]{%f}\n")
         ("\\.png\\'"   . "\\includegraphics[width=1.0\\linewidth]{%f}\n")
         ))))
+  (add-hook
+   'markdown-mode-hook
+   (lambda ()
+     (smart-dnd-setup
+      '(
+        ("\\.tex\\'" . "\\input{%r}\n")
+        ("\\.cls\\'" . "\\documentclass{%f}\n")
+        ("\\.sty\\'" . "\\usepackage{%f}\n")
+        ("\\.e?ps\\'"  . "\\includegraphics[width=1.0\\linewidth]{%f}\n")
+        ("\\.pdf\\'"   . "\\includegraphics[]{%r}\n")
+        ("\\.jpe?g\\'" . "![](%f)\n")
+        ("\\.png\\'"   . "![](%f)\n")
+        ))))
   )
 
 
@@ -243,3 +256,10 @@
 ;; (run-at-time 5 5 'progo-run-agenda-store)
 
 ;; (cancel-function-timers 'progo-run-agenda-store) ;; 停止命令
+
+
+
+(with-eval-after-load 'markdown-mode
+  (bind-keys :map markdown-mode-map
+             ("<f8>" . markdown-live-preview-mode)
+             )

@@ -375,6 +375,7 @@
 (load-file "~/.emacs.d/system/common/cache.el")
 
 (load-file "~/.emacs.d/system/common/logging.el")
+(load-file "~/.emacs.d/system/common/config.el")
 
 (load-file "~/.emacs.d/system/frame/frame.el")
 (load-file "~/.emacs.d/system/frame/modeline.el")
