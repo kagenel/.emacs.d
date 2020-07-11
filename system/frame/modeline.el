@@ -46,28 +46,58 @@
 ;; (powerline-center-theme)
 
 
+;; (when is_emacs26
+;;   (use-package doom-modeline
+;;     :ensure t
+;;     :hook 
+;;     (after-init . doom-modeline-mode)
+;;   :config
+;;   (setq doom-modeline-icon t))
+;;   )
+
 (when is_emacs26
-  (use-package doom-modeline
+  (use-package telephone-line
     :ensure t
-    :hook 
-    (after-init . doom-modeline-mode)
-  :config
-  (setq doom-modeline-icon f))
-  )
+    :hook
+    (after-init . telephone-line-mode)
+    :config
+    (telephone-line-defsegment my-meme-segment
+      (format "%s" " "))
+    ;; 色の再定義
+    (defface my-red '((t (:foreground "white" :background "red"))) "")
+    (defface my-yellow '((t (:foreground "dim grey" :background "yellow"))) "")
+    (defface my-chartreuse '((t (:foreground "dim grey" :background "chartreuse"))) "")
+    (setq telephone-line-faces
+          '((red . (my-red . my-red))
+            (yellow . (my-yellow . my-yellow))
+            (chartreuse . (my-chartreuse . my-chartreuse))
+            (evil . telephone-line-evil-face)
+            (accent . (telephone-line-accent-active . telephone-line-accent-inactive))
+            (nil . (mode-line . mode-line-inactive))))
+    ;; 左のコンテンツ
+    (setq telephone-line-lhs
+          '((accent   . (telephone-line-evil-tag-segment))
+            (chartreuse . (telephone-line-vc-segment
+                       telephone-line-erc-modified-channels-segment
+                       telephone-line-process-segment))
+            (accent    . (
+                       telephone-line-buffer-segment))
+            ))
+    ;; 右のコンテンツ
+    (setq telephone-line-rhs
+          '((nil    . (telephone-line-misc-info-segment))
+            (chartreuse    . (my-meme-segment))
+            (accent . (telephone-line-major-mode-segment))
+            (evil   . (telephone-line-airline-position-segment))))
+    ;; セパレータ
+    (setq telephone-line-primary-left-separator 'telephone-line-identity-left
+      telephone-line-secondary-left-separator 'telephone-line-identity-hollow-left
+      telephone-line-primary-right-separator 'telephone-line-identity-right
+      telephone-line-secondary-right-separator 'telephone-line-identity-hollow-right)
+    (setq telephone-line-height 24)
 
+    )
+   
+)
 
- ;; (use-package doom-modeline
- ;;      :custom
- ;;      (doom-modeline-buffer-file-name-style 'truncate-with-project)
- ;;      (doom-modeline-icon t)
- ;;      (doom-modeline-major-mode-icon nil)
- ;;      (doom-modeline-minor-modes nil)
- ;;      :hook
- ;;      (after-init . doom-modeline-mode)
- ;;      :config
- ;;      (line-number-mode 0)
- ;;      (column-number-mode 0)
- ;;      (doom-modeline-def-modeline 'main
- ;;    '(bar workspace-number window-number evil-state god-state ryo-modal xah-fly-keys matches buffer-info remote-host buffer-position parrot selection-info)
- ;;    '(misc-info persp-name lsp github debug minor-modes input-method major-mode process vcs checker)))
 
