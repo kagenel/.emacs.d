@@ -263,3 +263,18 @@
   (bind-keys :map markdown-mode-map
              ("<f8>" . markdown-live-preview-mode)
              )
+  )
+
+
+(defun markdown-preview-by-eww ()
+  (interactive)
+  (message (buffer-file-name))
+  (call-process "grip" nil nil nil
+                (buffer-file-name)
+                "--export"
+                "/tmp/grip.html")
+  (let ((buf (current-buffer)))
+    (eww-open-file "/tmp/grip.html")
+    (switch-to-buffer buf)
+    (pop-to-buffer "*eww*")))
+;; (define-key markdown-mode-map "\C-c \C-c" 'markdown-preview-eww)

@@ -63,7 +63,7 @@
 
 ;; (setq tabbar-use-images nil)             ;; 画像を使わない(高速化)
 (tabbar-mwheel-mode -1)                  ;; タブ上でマウスホイール操作無効
-(setq tabbar-buffer-groups-function nil) ;; グループ化しない
+;; (setq tabbar-buffer-groups-function nil) ;; グループ化しない
 
 ;; 左に表示されるボタンを無効化
 (dolist (btn '(tabbar-buffer-home-button
@@ -166,6 +166,9 @@ are always included."
 ;; Chrome ライクなタブ切り替えのキーバインド
 (global-set-key (kbd "<M-s-right>") 'tabbar-forward-tab)
 (global-set-key (kbd "<M-s-left>") 'tabbar-backward-tab)
+(global-set-key (kbd "<M-s-down>") 'tabbar-forward-group)
+(global-set-key (kbd "<M-s-up>") 'tabbar-backward-group)
+
 
 ;; タブ上をマウス中クリックで kill-buffer
 (defun my-tabbar-buffer-help-on-tab (tab)

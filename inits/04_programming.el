@@ -62,12 +62,12 @@
 
 
 ;; cmake
-(require 'cmake-mode); Add cmake listfile names to the mode list.
-(setq auto-mode-alist
-	  (append
-	   '(("CMakeLists\\.txt\\'" . cmake-mode))
-	   '(("\\.cmake\\'" . cmake-mode))
-	   auto-mode-alist))
+(use-package cmake-mode
+  :mode (("CMakeLists\\.txt\\'" . cmake-mode)
+         ("\\.cmake\\'"   . cmake-mode))
+  :config
+  ;; web-modeの設定
+  )
 
 ;; C#
 ;; C# mode
