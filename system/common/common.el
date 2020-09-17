@@ -48,6 +48,7 @@
 (defvar is_emacs24 (and (>= emacs-major-version 24) (< emacs-major-version 25)))
 (defvar is_emacs25 (and (>= emacs-major-version 25) (< emacs-major-version 26)))
 (defvar is_emacs26 (and (>= emacs-major-version 26) (< emacs-major-version 27)))
+(defvar is_emacs27 (and (>= emacs-major-version 27) (< emacs-major-version 28)))
 (when is_emacs24
   (add-to-load-path "site-lisp")
   ;; 分割init.el
@@ -72,6 +73,15 @@
    '(init-loader-show-log-after-init 'error-only))
   (init-loader-load)
   )
+(when is_emacs27
+  (add-to-load-path "site-lisp")
+  ;; 分割init.el
+  (package-initialize)
+  (custom-set-variables
+   '(init-loader-show-log-after-init 'error-only))
+  (init-loader-load)
+  )
+
 
 ;; ============================
 ;; ウィンドウ設定
@@ -182,11 +192,11 @@
 ;; =============================
 (set-face-attribute 'default nil :height 120)                ;; デフォルトフォントサイズ
 
-; 横幅1:2 ricty-12, ricty-13.5, ricty-15
-(if (null (x-list-fonts "ricty-12"))
-    (message "Fonts not found")
-    (add-to-list 'default-frame-alist '(font . "ricty-12"))  ;; フォント読み込み
-    )
+;; ; 横幅1:2 ricty-12, ricty-13.5, ricty-15
+;; (if (null (x-list-fonts "ricty-12"))
+;;     (message "Fonts not found")
+;;     (add-to-list 'default-frame-alist '(font . "ricty-12"))  ;; フォント読み込み
+;;     )
 
 ;; default char encoding system as utf-8
 (set-default-coding-systems 'utf-8)
